@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <contextName>simple-spring</contextName>
+    <property name="USER_HOME" value="/home/admin/web/logs"/>
+    <property name="APP_NAME" value="simple-spring"/>
+    <property name="MY_PATTERN"
+              value="%contextName %d{yyyy-MM-dd HH:mm:ss.SSS} %X{TraceId} [%thread] [%-5level] [%-20logger{64}:%L] - %m%n"/>
+
+    <!--logback启动日志-->
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${MY_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

@@ -12,5 +12,5 @@ public @interface DiffLogField {
 
     String name();
 
-    String function();
+    String function() default "";
 }

@@ -1,0 +1,18 @@
+spring:
+  data:
+    mongodb:
+      host: 127.0.0.1
+      port: 27017
+      database: test
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/test?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&rewriteBatchedStatements=true&allowMultiQueries=true
+    username: root
+    password: 123456
+logging:
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #开启sql日志
