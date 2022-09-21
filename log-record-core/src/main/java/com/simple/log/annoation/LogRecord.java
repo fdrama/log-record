@@ -8,7 +8,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 
-
 /**
  * @author fdrama
  */
@@ -56,4 +55,10 @@ public @interface LogRecord {
      * @return 是否记录日志
      */
     String condition() default "";
+
+    /**
+     * 记录成功日志的条件
+     * 默认为空，代表不抛异常为成功
+     */
+    String successCondition() default "";
 }

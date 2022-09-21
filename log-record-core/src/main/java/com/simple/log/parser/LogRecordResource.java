@@ -9,10 +9,10 @@ import org.springframework.core.BridgeMethodResolver;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -52,6 +52,7 @@ public class LogRecordResource {
                 .operatorId(recordAnnotation.operator())
                 .extra(recordAnnotation.extra())
                 .condition(recordAnnotation.condition())
+                .successCondition(recordAnnotation.successCondition())
                 .build();
     }
 
@@ -67,11 +68,9 @@ public class LogRecordResource {
         return spElTemplates;
     }
 
-    public static List<String> getSpElTemplates(LogRecordOps operation, String action) {
-        List<String> spElTemplates = Lists.newArrayList(operation.getType(), operation.getBizNo(), operation.getSubType(), action, operation.getExtra());
-        if (!StringUtils.hasText(operation.getCondition())) {
-            spElTemplates.add(operation.getCondition());
-        }
+    public static List<String> getSpElTemplates(LogRecordOps operation, String... action) {
+        List<String> spElTemplates = Lists.newArrayList(operation.getType(), operation.getBizNo(), operation.getSubType(), operation.getExtra());
+        spElTemplates.addAll(Arrays.asList(action));
         return spElTemplates;
     }
 

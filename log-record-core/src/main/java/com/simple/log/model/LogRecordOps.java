@@ -42,4 +42,9 @@ public class LogRecordOps {
      * 日志记录条件
      */
     private String condition;
+
+    /**
+     * 日志成功失败记录条件
+     */
+    private String successCondition;
 }
