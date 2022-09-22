@@ -251,7 +251,8 @@ public class LogRecordInterceptor implements MethodInterceptor, Serializable, Sm
         Map<String, String> functionNameAndReturnValueMap = new HashMap<>(templates.size());
 
         // 创建表达式解析上下文
-        EvaluationContext evaluationContext = expressionEvaluator.createEvaluationContext(method, args, targetClass, null, null, beanFactory);
+        EvaluationContext evaluationContext = expressionEvaluator.createEvaluationContext(method, args, targetClass,
+                null, null, beanFactory);
 
         for (String expressionTemplate : templates) {
             if (expressionTemplate.contains("{")) {
@@ -292,9 +293,12 @@ public class LogRecordInterceptor implements MethodInterceptor, Serializable, Sm
         Map<String, String> expressionValues = new HashMap<>(templates.size());
 
         // 创建表达式解析上下文 这里获取的入参如果发生了变更，那么上下文里的入参变量也是修改后的值
-        EvaluationContext evaluationContext = expressionEvaluator.createEvaluationContext(methodExecuteResult.getMethod(), methodExecuteResult.getArgs(),
-                methodExecuteResult.getTargetClass(), methodExecuteResult.getResult(),
-                methodExecuteResult.getErrorMsg(), beanFactory);
+        EvaluationContext evaluationContext = expressionEvaluator.createEvaluationContext(methodExecuteResult.getMethod(),
+                methodExecuteResult.getArgs(),
+                methodExecuteResult.getTargetClass(),
+                methodExecuteResult.getResult(),
+                methodExecuteResult.getErrorMsg(),
+                beanFactory);
         AnnotatedElementKey annotatedElementKey = new AnnotatedElementKey(methodExecuteResult.getMethod(), methodExecuteResult.getTargetClass());
         for (String expressionTemplate : templates) {
             // 利用正则表达式 matcher appendReplacement quoteReplacement appendTail 替换变量
