@@ -147,7 +147,9 @@ public class SpElTest {
         StandardEvaluationContext context = new StandardEvaluationContext(tesla);
         context.setVariable("newName", "Mike Tesla");
 
-        parser.parseExpression("Name = #newName").getValue(context);
+        parser.parseExpression("name = #newName").getValue(context);
+
+        parser.parseExpression("name").setValue(context, tesla, "Nikola");
 
         System.out.println(tesla.getName()); // "Mike Tesla"
     }
