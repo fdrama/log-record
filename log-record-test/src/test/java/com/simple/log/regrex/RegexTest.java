@@ -1,9 +1,10 @@
 package com.simple.log.regrex;
 
+import com.simple.log.model.LogRecordConstant;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,18 +15,29 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RegexTest {
 
-    private static final Pattern PATTERN = Pattern.compile("\\{\\s*(\\w*)\\s*\\{(.*?)}}");
 
     @Test
-    public void test1() {
+    public void testEmptyFunction() {
         String expressionTemplate = "{{#newOrder.orderNo}}";
-        Matcher matcher = PATTERN.matcher(expressionTemplate);
+        Matcher matcher = LogRecordConstant.LOG_PATTERN.matcher(expressionTemplate);
         while (matcher.find()) {
             String functionName = matcher.group(1);
             String expressionStr = matcher.group(2);
             System.out.println(functionName);
             System.out.println(expressionStr);
 
+        }
+    }
+
+    @Test
+    public void testFunction() {
+        String expressionTemplate = "{simple{#newOrder.orderNo}}";
+        Matcher matcher = LogRecordConstant.LOG_PATTERN.matcher(expressionTemplate);
+        while (matcher.find()) {
+            String functionName = matcher.group(1);
+            String expressionStr = matcher.group(2);
+            System.out.println(functionName);
+            System.out.println(expressionStr);
         }
     }
 }

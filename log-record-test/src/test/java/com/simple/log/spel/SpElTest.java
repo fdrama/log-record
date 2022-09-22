@@ -163,7 +163,7 @@ public class SpElTest {
         // 将方法将注册到计算上下文中
         context.registerFunction("lowerCase",
                 StringUtils.class.getDeclaredMethod("lowerCase",
-                        new Class[]{String.class}));
+                        String.class));
 
         String helloWorldLowerCase =
                 parser.parseExpression("#lowerCase('HELLO')").getValue(context, String.class);

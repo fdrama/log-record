@@ -1,5 +1,7 @@
 package com.simple.log.parser;
 
+import com.simple.log.model.LogRecordConstant;
+
 import org.springframework.context.expression.MethodBasedEvaluationContext;
 import org.springframework.core.ParameterNameDiscoverer;
 
@@ -11,13 +13,6 @@ import java.lang.reflect.Method;
  * @author mzt.
  */
 public class LogRecordEvaluationContext extends MethodBasedEvaluationContext {
-
-    /**
-     * 保存结果对象的变量的名称。
-     */
-    public static final String RESULT_VARIABLE = "_ret";
-
-    public static final String ERROR_MSG_VARIABLE = "_errorMsg";
 
     /**
      * 把方法的参数都放到 SpEL 解析的 RootObject
@@ -32,7 +27,7 @@ public class LogRecordEvaluationContext extends MethodBasedEvaluationContext {
      * @param ret
      */
     public void addResult(Object ret) {
-        setVariable(RESULT_VARIABLE, ret);
+        setVariable(LogRecordConstant.RESULT_VARIABLE, ret);
     }
 
     /**
@@ -41,6 +36,6 @@ public class LogRecordEvaluationContext extends MethodBasedEvaluationContext {
      * @param errorMsg
      */
     public void addErrorMsg(String errorMsg) {
-        setVariable(ERROR_MSG_VARIABLE, errorMsg);
+        setVariable(LogRecordConstant.ERROR_MSG_VARIABLE, errorMsg);
     }
 }

@@ -11,6 +11,10 @@
     </parent>
 
     <artifactId>log-record-test</artifactId>
+    <properties>
+        <java.version>1.8</java.version>
+        <skipTests>true</skipTests>
+    </properties>
 
     <dependencies>
         <dependency>

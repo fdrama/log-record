@@ -23,8 +23,8 @@ public class LogRecordExpressionEvaluator extends CachedExpressionEvaluator {
     /**
      * 解析指定表达式。
      */
-    public Object parseExpression(String conditionExpression, AnnotatedElementKey methodKey, EvaluationContext evalContext) {
-        return getExpression(this.expressionCache, methodKey, conditionExpression).getValue(evalContext, Object.class);
+    public Object parseExpression(String conditionExpression, AnnotatedElementKey annotatedElementKey, EvaluationContext evalContext) {
+        return getExpression(this.expressionCache, annotatedElementKey, conditionExpression).getValue(evalContext, Object.class);
     }
 
 

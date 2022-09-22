@@ -7,6 +7,7 @@ import com.google.common.collect.Maps;
 import com.simple.log.function.record.ILogRecordService;
 import com.simple.log.function.user.IOperatorGetService;
 import com.simple.log.model.CodeVariableType;
+import com.simple.log.model.LogRecordConstant;
 import com.simple.log.model.LogRecordDO;
 import com.simple.log.model.LogRecordOps;
 import com.simple.log.model.MethodExecuteResult;
@@ -36,9 +37,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import lombok.extern.slf4j.Slf4j;
+
+import static com.simple.log.model.LogRecordConstant.LOG_PATTERN;
 
 /**
  * @author fdrama
@@ -47,8 +49,6 @@ import lombok.extern.slf4j.Slf4j;
 public class LogRecordInterceptor implements MethodInterceptor, Serializable, SmartInitializingSingleton {
 
     private static final long serialVersionUID = 31531527095537795L;
-
-    private static final Pattern PATTERN = Pattern.compile("\\{\\s*(\\w*)\\s*\\{(.*?)}}");
 
     private LogRecordParser logRecordParser;
 
@@ -166,7 +166,7 @@ public class LogRecordInterceptor implements MethodInterceptor, Serializable, Sm
         // 存在保存成功/失败条件模板
         if (StringUtils.isNotEmpty(operation.getSuccessCondition())) {
             String successConditionValue = processSingleTemplate(operation.getSuccessCondition(), methodExecuteResult, functionNameAndReturnMap);
-            if (StringUtils.endsWithIgnoreCase(successConditionValue, "true")) {
+            if (StringUtils.endsWithIgnoreCase(successConditionValue, Boolean.toString(true))) {
                 content = operation.getSuccessLogTemplate();
             } else {
                 content = operation.getFailLogTemplate();
@@ -239,7 +239,7 @@ public class LogRecordInterceptor implements MethodInterceptor, Serializable, Sm
             return true;
         }
         String conditionValue = processSingleTemplate(condition, methodExecuteResult, functionNameAndReturnMap);
-        return !StringUtils.equalsIgnoreCase("false", conditionValue);
+        return StringUtils.equalsIgnoreCase(Boolean.toString(true), conditionValue);
     }
 
     private String getRealOperatorId(LogRecordOps operation, String operatorIdFromService, Map<String, String> expressionValues) {
@@ -255,10 +255,11 @@ public class LogRecordInterceptor implements MethodInterceptor, Serializable, Sm
 
         for (String expressionTemplate : templates) {
             if (expressionTemplate.contains("{")) {
-                Matcher matcher = PATTERN.matcher(expressionTemplate);
+                Matcher matcher = LOG_PATTERN.matcher(expressionTemplate);
                 while (matcher.find()) {
                     String expressionStr = matcher.group(2);
-                    if (expressionStr.contains("#_ret") || expressionStr.contains("#_errorMsg")) {
+                    // 方法执行前 没有结果参数
+                    if (expressionStr.contains(LogRecordConstant.RESULT_VARIABLE) || expressionStr.contains(LogRecordConstant.ERROR_MSG_VARIABLE)) {
                         continue;
                     }
                     String functionName = matcher.group(1);
@@ -298,7 +299,7 @@ public class LogRecordInterceptor implements MethodInterceptor, Serializable, Sm
         for (String expressionTemplate : templates) {
             // 利用正则表达式 matcher appendReplacement quoteReplacement appendTail 替换变量
             if (expressionTemplate.contains("{")) {
-                Matcher matcher = PATTERN.matcher(expressionTemplate);
+                Matcher matcher = LOG_PATTERN.matcher(expressionTemplate);
                 StringBuffer parsedStr = new StringBuffer();
                 while (matcher.find()) {
                     String functionName = matcher.group(1);
